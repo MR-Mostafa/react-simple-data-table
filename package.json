@@ -1,0 +1,57 @@
+{
+  "name": "ecobin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf \"./dist\"",
+    "dev": "yarn run clean && vite",
+    "build": "yarn run clean && tsc && vite build",
+    "preview": "yarn run build && vite preview",
+    "prettier:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx}\"",
+    "prettier:fix": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
+    "eslint:check": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
+    "eslint:fix": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
+    "spell": "cspell --no-progress \"src/**/*\"",
+    "pre-commit": "yarn run prettier:check && yarn run eslint:check && yarn run spell",
+    "lint": "yarn run pre-commit",
+    "prepare": "husky install"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8",
+    "yarn": ">=1"
+  },
+  "packageManager": "yarn@1.22.17",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.7.4",
+    "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.4",
+    "react-icons": "^4.8.0",
+    "react-router-dom": "^6.10.0"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/node": "^18.15.12",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "@vitejs/plugin-react-swc": "^3.3.0",
+    "cspell": "^6.31.1",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-github": "^4.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.7",
+    "rimraf": "^5.0.0",
+    "sass": "^1.62.0",
+    "typescript": "^4.9.5",
+    "vite": "^4.2.2",
+    "vite-plugin-chunk-split": "^0.4.7"
+  }
+}

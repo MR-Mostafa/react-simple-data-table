@@ -1,0 +1,24 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"env": {
+		"browser": true,
+		"es2022": true
+	},
+	"plugins": ["@typescript-eslint", "github"],
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:github/recommended", "prettier"],
+	"settings": {
+		"import/resolver": {
+			"typescript": {
+				"alwaysTryTypes": true,
+				"project": "./tsconfig.json"
+			}
+		}
+	},
+	"rules": {
+		"react-hooks/exhaustive-deps": "off",
+		"no-console": ["error", { "allow": ["warn", "error"] }],
+		"no-alert": "error",
+		"arrow-parens": ["error", "always"]
+	}
+}
