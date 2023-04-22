@@ -1,0 +1,15 @@
+$utilities: (
+	'font-weight': (
+		property: font-weight,
+		class: fw,
+		values: (
+			lighter: lighter,
+			light: 300,
+			normal: 400,
+			medium: 500,
+			semibold: 600,
+			bold: 700,
+			bolder: bolder,
+		),
+	),
+);
