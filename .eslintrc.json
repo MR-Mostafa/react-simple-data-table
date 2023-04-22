@@ -19,6 +19,7 @@
 		"react-hooks/exhaustive-deps": "off",
 		"no-console": ["error", { "allow": ["warn", "error"] }],
 		"no-alert": "error",
-		"arrow-parens": ["error", "always"]
+		"arrow-parens": ["error", "always"],
+		"filenames/match-regex": ["error", "^[a-z0-9-\\[\\]]+(.[a-z0-9-.]+)?$"]
 	}
 }
