@@ -1,8 +1,8 @@
 // Typography
-$font-family-sans-serif: 'Roboto', Arial, Tahoma, 'Times New Roman', sans-serif,
-	'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-$headings-font-family: 'Roboto', Arial, Tahoma, 'Times New Roman', sans-serif,
-	'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+$font-family-sans-serif: 'Roboto', Arial, Tahoma, 'Times New Roman', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+	'Noto Color Emoji';
+$headings-font-family: 'Roboto', Arial, Tahoma, 'Times New Roman', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+	'Noto Color Emoji';
 $font-size-root: 10px;
 $font-size-base: 1.5rem;
 $line-height-base: 1.6;
@@ -18,3 +18,17 @@ $link-decoration: none;
 
 // Paragraphs
 $paragraph-margin-bottom: 0;
+
+// Spinner
+$spinner-width: 3.7rem;
+$spinner-border-width: 0.3em;
+$spinner-width-sm: 2.5rem;
+$spinner-border-width-sm: 0.25em;
+
+// Buttons + Forms
+$input-btn-padding-y: 0.75rem;
+$input-btn-padding-x: 1.5rem;
+$input-btn-padding-y-sm: 0.5rem;
+$input-btn-padding-x-sm: 1rem;
+$input-btn-padding-y-lg: 1rem;
+$input-btn-padding-x-lg: 2rem;
