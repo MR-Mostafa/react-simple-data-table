@@ -1,0 +1,55 @@
+.thead {
+	:global {
+		th {
+			padding: 0;
+		}
+	}
+}
+
+.btnSort {
+	&:hover {
+		--bs-text-opacity: 0.7;
+	}
+
+	&:active {
+		--bs-text-opacity: 1;
+	}
+
+	:global {
+		.sort-icons {
+			$dimension: 18px;
+
+			position: relative;
+			height: $dimension;
+			width: $dimension;
+			max-height: 100%;
+			transform: translateY(1px);
+			color: #b7b7b7;
+
+			svg {
+				position: absolute;
+				flex: 0 0 $dimension;
+				width: $dimension;
+				height: $dimension;
+
+				&:first-child {
+					top: -1px;
+					bottom: auto;
+				}
+
+				&:last-child {
+					top: auto;
+					bottom: 0px;
+				}
+			} // svg
+
+			.active {
+				color: #2e2e2e;
+			}
+		} // .sort-icons
+	} // :global
+} // .btnSort
+
+.activeSort {
+	background-color: var(--bs-table-hover-bg) !important;
+}

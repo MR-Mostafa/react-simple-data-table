@@ -1,0 +1,13 @@
+.table {
+	margin: 2.5rem 0;
+
+	:global {
+		tr {
+			border-width: 3px;
+		}
+
+		td {
+			transition: all 0.2s ease-in-out;
+		}
+	} // :global
+} // .table
