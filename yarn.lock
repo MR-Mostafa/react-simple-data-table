@@ -2994,6 +2994,11 @@ react-error-boundary@^4.0.4:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+react-html-props@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-html-props/-/react-html-props-2.0.2.tgz#291b30f67a1c8b22e60d49d42fafaf58ef61d8a6"
+  integrity sha512-5spuo3V4d39C8EGFPkI7k2XpOP0Nu3SwG2g5LwBZ9C0eT6VTxIpYo3skm1lOtp6Zla461MutNMA9HCoFqnM4vg==
+
 react-icons@^4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.8.0.tgz#621e900caa23b912f737e41be57f27f6b2bff445"
