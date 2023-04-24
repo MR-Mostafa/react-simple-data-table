@@ -1,5 +1,16 @@
+@import '~src/assets/styles/responsive';
+
 .table {
 	margin: 2.5rem 0;
+	table-layout: fixed;
+
+	@include media-breakpoint-up(lg) {
+		width: 100%;
+	}
+
+	@include media-breakpoint-down(lg) {
+		width: auto;
+	}
 
 	:global {
 		tr {
@@ -9,5 +20,22 @@
 		td {
 			transition: all 0.2s ease-in-out;
 		}
+
+		th,
+		td {
+			vertical-align: middle;
+			line-height: 1.7;
+		}
 	} // :global
 } // .table
+
+.truncateTable {
+	:global {
+		th,
+		td {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}

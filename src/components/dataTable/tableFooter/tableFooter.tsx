@@ -4,6 +4,6 @@ interface TableFooterProps {
 	children: ReactElement<HTMLTableRowElement> | ReactElement<HTMLTableRowElement>[];
 }
 
-export const TableFooter = ({ children }: TableFooterProps) => {
+export const TableFooter = ({ children }: TableFooterProps): ReactElement<HTMLTableSectionElement> => {
 	return <tfoot>{children}</tfoot>;
 };

@@ -7,12 +7,14 @@ import { FaSortDown, FaSortUp } from 'react-icons/fa';
 
 import cx from 'classnames';
 
+export interface TableHeaderList {
+	text: string;
+	onSort?: (sortBy: string) => void;
+	sortType?: 'asc' | 'des';
+	width?: string;
+}
 interface TableHeaderProps {
-	list: {
-		text: string;
-		onSort?: (sortBy: string) => void;
-		sortType?: 'asc' | 'des';
-	}[];
+	list: TableHeaderList[];
 	trProps?: Pick<TRProps, 'className'>;
 	thProps?: Pick<THProps, 'colSpan' | 'abbr' | 'headers' | 'rowSpan' | 'scope' | 'className'>;
 }
@@ -26,7 +28,7 @@ export const TableHeader = memo(({ list, thProps, trProps }: TableHeaderProps): 
 			<tr {...trProps}>
 				{list.map((item, index) => {
 					return (
-						<th key={index} {...thProps}>
+						<th key={index} {...thProps} style={item.width ? { width: item.width } : {}}>
 							{item.onSort && typeof item.onSort === 'function' ? (
 								<Button
 									className={cx(styled.btnSort, DEFAULT_CLASS, {
