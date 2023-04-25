@@ -3,7 +3,7 @@ export interface ProductItem {
 	title: string;
 	description: string;
 	price: number;
-	discountPercentage: 12.96;
+	discountPercentage: number;
 	rating: number;
 	stock: number;
 	brand: string;
@@ -11,6 +11,8 @@ export interface ProductItem {
 	thumbnail: string;
 	images: string[];
 }
+
+export type ProductsKeys = keyof Omit<ProductItem, 'images'>;
 
 export interface ProductList {
 	products: ProductItem[];
