@@ -10,7 +10,7 @@ import cx from 'classnames';
 export interface TableHeaderList {
 	text: string;
 	onSort?: (sortBy: string) => void;
-	sortType?: 'asc' | 'des';
+	sortType?: (sortBy: string) => 'asc' | 'des' | undefined;
 	width?: string;
 }
 interface TableHeaderProps {
@@ -29,20 +29,20 @@ export const TableHeader = memo(({ list, thProps, trProps }: TableHeaderProps): 
 				{list.map((item, index) => {
 					return (
 						<th key={index} {...thProps} style={item.width ? { width: item.width } : {}}>
-							{item.onSort && typeof item.onSort === 'function' ? (
+							{item.onSort ? (
 								<Button
 									className={cx(styled.btnSort, DEFAULT_CLASS, {
-										[styled.activeSort]: item.sortType,
+										[styled.activeSort]: item?.sortType?.(item.text.toLowerCase()),
 									})}
 									type="button"
 									onClick={() => {
-										item.onSort?.(item.text);
+										item.onSort?.(item.text.toLowerCase());
 									}}
 								>
 									{item.text}
 									<span className="d-flex flex-column justify-content-center align-items-center sort-icons">
-										<FaSortUp className={cx({ active: item.sortType && item.sortType === 'asc' })} />
-										<FaSortDown className={cx({ active: item.sortType && item.sortType === 'des' })} />
+										<FaSortUp className={cx({ active: item?.sortType?.(item.text.toLowerCase()) === 'asc' })} />
+										<FaSortDown className={cx({ active: item?.sortType?.(item.text.toLowerCase()) === 'des' })} />
 									</span>
 								</Button>
 							) : (
