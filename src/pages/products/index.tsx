@@ -2,12 +2,14 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
+import { ProductsTable } from '~src/features';
+
 const Products = () => {
 	return (
 		<Container className="py-5">
 			<Row>
 				<Col>
-					<h1>Product Page</h1>
+					<ProductsTable />
 				</Col>
 			</Row>
 		</Container>
