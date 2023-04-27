@@ -16,8 +16,8 @@ const START_PAGE = 1;
 export const Pagination = memo(({ totalPage, currentPage }: PaginationProps) => {
 	const status = useMemo(() => {
 		return {
-			isDisabledPrevPage: START_PAGE >= currentPage,
-			isDisabledNextPage: currentPage >= totalPage,
+			isDisabledPrevPage: START_PAGE >= Math.ceil(currentPage),
+			isDisabledNextPage: Math.ceil(currentPage) >= Math.ceil(totalPage),
 		};
 	}, [currentPage, totalPage]);
 
@@ -32,7 +32,7 @@ export const Pagination = memo(({ totalPage, currentPage }: PaginationProps) => 
 			</Button>
 
 			<Button type="button" className="p-2 d-flex align-items-center justify-content-center btn-current" disabled>
-				{currentPage}
+				{Math.ceil(currentPage)}
 			</Button>
 
 			<Button type="button" className="p-2 d-flex align-items-center justify-content-center" disabled={status.isDisabledNextPage}>
@@ -40,7 +40,7 @@ export const Pagination = memo(({ totalPage, currentPage }: PaginationProps) => 
 			</Button>
 
 			<Button type="button" className="p-2 d-flex align-items-center justify-content-center" disabled={status.isDisabledNextPage}>
-				{totalPage}
+				{Math.ceil(totalPage)}
 			</Button>
 		</div>
 	);
