@@ -96,7 +96,7 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 
 			return columnItem.includes(searchText);
 		});
-	}, [activeSort, data, searchBy, searchText]);
+	}, [activeSort, data, searchText]);
 
 	return (
 		<Table isTruncated>
