@@ -61,7 +61,7 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 			{ text: 'Description', width: '30%' },
 			{ text: 'Action', width: '12%' },
 		];
-	}, [isSuccess]);
+	}, [isSuccess, activeSort]);
 
 	const sortingData = useMemo(() => {
 		const products = data?.products ? [...data.products] : [];
