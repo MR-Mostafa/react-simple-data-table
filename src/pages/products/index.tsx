@@ -1,74 +1,30 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
-import { ProductsTable } from '~src/features';
-import { useGetAllProducts } from '~src/services';
+import { ProductsHeader, ProductsTable } from '~src/features';
 import { ProductsKeys } from '~src/types';
 
-interface SortStateType {
-	sortBy?: string;
-	sortType?: 'asc' | 'des';
+export interface InputsStateType {
+	limit: number;
+	searchText: string;
+	searchBy: ProductsKeys;
 }
 
 const Products = () => {
-	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(10);
-	const [activeSort, setActiveSort] = useState<SortStateType>({ sortBy: undefined, sortType: undefined });
-	const { data, isLoading, isError, isSuccess } = useGetAllProducts({ page, limit });
-
-	const sortHandler = useMemo(() => {
-		if (!isSuccess) return undefined;
-
-		return {
-			onSort: (text: string) => {
-				setActiveSort((prev) => {
-					return { sortBy: text, sortType: prev.sortType && prev.sortType === 'des' ? 'asc' : 'des' };
-				});
-			},
-			sortType: (text: string) => (activeSort.sortBy === text ? activeSort.sortType : undefined),
-		};
-	}, [isSuccess, activeSort]);
-
-	const sortingData = useMemo(() => {
-		const products = data?.products ? [...data.products] : [];
-
-		if (!products || products.length === 0) return [];
-
-		const { sortBy, sortType } = activeSort;
-
-		return (() => {
-			if (!sortBy || !sortType) return products;
-
-			return products.sort((a, b) => {
-				const valA = a[sortBy as ProductsKeys];
-				const valB = b[sortBy as ProductsKeys];
-
-				if (typeof valA === 'number' && typeof valB === 'number') {
-					return activeSort.sortType === 'asc' ? valA - valB : valB - valA;
-				}
-
-				const options = { sensitivity: 'base', usage: 'sort', ignorePunctuation: true };
-
-				return activeSort.sortType === 'asc'
-					? valA.toString().localeCompare(valB.toString(), undefined, options)
-					: valB.toString().localeCompare(valA.toString(), undefined, options);
-			});
-		})();
-	}, [activeSort, data]);
+	const [page] = useState(1);
+	const [inputs, setInputs] = useState<InputsStateType>({ limit: 30, searchText: '', searchBy: 'title' });
 
 	return (
 		<Container className="py-5">
 			<Row>
-				<Col>
-					<ProductsTable
-						isError={isError}
-						isLoading={isLoading}
-						isSuccess={isSuccess}
-						productsData={sortingData}
-						sortHandler={sortHandler}
-					/>
+				<Col xs={12}>
+					<ProductsHeader values={inputs} setValues={setInputs} />
+				</Col>
+
+				<Col xs={12}>
+					<ProductsTable page={page} limit={inputs.limit} searchBy={inputs.searchBy} searchText={inputs.searchText} />
 				</Col>
 			</Row>
 		</Container>
