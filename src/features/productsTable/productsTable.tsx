@@ -15,9 +15,13 @@ interface ProductsTableProps {
 	searchText?: string;
 }
 
+/**
+ * @description
+ * Displays a table of products based on the current page, limit, search query, and sort order.
+ **/
 export const ProductsTable = memo(({ page, limit, searchBy, searchText }: ProductsTableProps) => {
 	const [activeSort, setActiveSort] = useState<SortStateType>({ sortBy: undefined, sortType: undefined });
-	const { data, isLoading, isError, isSuccess } = useGetAllProducts({ page, limit });
+	const { data, isLoading, isError, isSuccess } = useGetAllProducts();
 
 	const tableHeaderList = useMemo(() => {
 		const sortHandler = (() => {
@@ -63,14 +67,20 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 		];
 	}, [isSuccess, activeSort]);
 
-	const sortingData = useMemo(() => {
+	/**
+	 * Displays a portion of the filtered and sorted products array based on the current page and limit.
+	 **/
+	const computingData = useMemo(() => {
 		const products = data?.products ? [...data.products] : [];
 
 		if (!products || products.length === 0) return [];
 
 		const { sortBy, sortType } = activeSort;
 
-		const sorted = (() => {
+		/**
+		 * sorts an array of products based on a specified sort key and sort type.
+		 */
+		const sortProducts = () => {
 			if (!sortBy || !sortType) return products;
 
 			return products.sort((a, b) => {
@@ -87,16 +97,29 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 					? valA.toString().localeCompare(valB.toString(), undefined, options)
 					: valB.toString().localeCompare(valA.toString(), undefined, options);
 			});
-		})();
+		};
 
-		if (!searchBy || !searchText) return sorted;
+		/**
+		 * filters products based on a search query.
+		 */
+		const filterProducts = () => {
+			if (!searchBy || !searchText) return sortProducts();
 
-		return sorted.filter((item) => {
-			const columnItem = item[searchBy].toString().trim().toLowerCase();
+			return sortProducts().filter((item) => {
+				const columnItem = item[searchBy].toString().trim().toLowerCase();
 
-			return columnItem.includes(searchText);
-		});
-	}, [activeSort, data, searchText]);
+				return columnItem.includes(searchText);
+			});
+		};
+
+		const start = (page - 1) * limit;
+		const end = limit * page;
+
+		/**
+		 * Returning a portion of the filtered and sorted products array based on the current page and limit
+		 */
+		return filterProducts().slice(start, end);
+	}, [activeSort, data, searchText, page, limit]);
 
 	return (
 		<Table isTruncated>
@@ -107,11 +130,11 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 
 					{isError && <Table.Error tdProps={{ colSpan: 6 }} />}
 
-					{isSuccess && sortingData.length === 0 && <Table.Empty tdProps={{ colSpan: 6 }} />}
+					{isSuccess && computingData.length === 0 && <Table.Empty tdProps={{ colSpan: 6 }} />}
 
 					{isSuccess &&
-						sortingData.length !== 0 &&
-						sortingData.map((item) => {
+						computingData.length !== 0 &&
+						computingData.map((item) => {
 							return (
 								<tr key={item.id}>
 									<td className="text-center">{new Intl.NumberFormat('en-GB', { style: 'decimal' }).format(item.id)}</td>
