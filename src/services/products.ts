@@ -16,7 +16,7 @@ export const useGetAllProducts = () => {
 		},
 		{
 			refetchOnWindowFocus: false,
-			keepPreviousData: true,
+			staleTime: Infinity,
 		}
 	);
 };
