@@ -1,1 +1,1 @@
-export { useAddNewProduct, useGetAllProducts, useGetProductCategories } from './products';
+export { useAddNewProduct, useDeleteProduct, useGetAllProducts, useGetProductCategories } from './products';
