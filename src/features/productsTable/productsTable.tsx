@@ -1,6 +1,8 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { productsResultState } from '~src/atom';
 import { Table } from '~src/components';
 import { useGetAllProducts } from '~src/services';
@@ -128,6 +130,7 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 	return (
 		<Table isTruncated>
 			<Table.Header list={tableHeaderList} />
+
 			<Table.Body>
 				<>
 					{isLoading && <Table.Loading tdProps={{ colSpan: 6 }} />}
@@ -139,8 +142,10 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 					{isSuccess &&
 						paginationProducts.length !== 0 &&
 						paginationProducts.map((item) => {
+							const uuid = uuidv4();
+
 							return (
-								<tr key={item.id}>
+								<tr key={uuid}>
 									<td className="text-center">{new Intl.NumberFormat('en-GB', { style: 'decimal' }).format(item.id)}</td>
 									<td>{item.category}</td>
 									<td>{item.title}</td>
