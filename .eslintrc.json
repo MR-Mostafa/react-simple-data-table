@@ -20,7 +20,7 @@
 		"no-console": ["error", { "allow": ["warn", "error"] }],
 		"no-alert": "error",
 		"arrow-parens": ["error", "always"],
-		"filenames/match-regex": ["error", "^[a-z0-9-\\[\\]]+(.[a-z0-9-.]+)?$"],
+		"filenames/match-regex": ["error", "^[a-z0-9\\[][a-zA-Z0-9-\\]]+(.[a-z0-9-.]+)?$"],
 		"eslint-comments/no-use": "off",
 		"no-shadow": "off",
 		"@typescript-eslint/no-shadow": "error"

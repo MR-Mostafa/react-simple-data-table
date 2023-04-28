@@ -92,7 +92,7 @@ const inputsReducer = (state: InputsState, action: InputsAction) => {
 	}
 };
 
-export const InsertNewproducts = memo(() => {
+export const InsertNewProducts = memo(() => {
 	const { data: categories, isSuccess } = useGetProductCategories();
 	const { mutate, isLoading } = useAddNewProduct();
 

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { productsResultState } from '~src/atom';
 import { Table } from '~src/components';
-import { InsertNewproducts } from '~src/features';
+import { InsertNewProducts } from '~src/features';
 import { useGetAllProducts } from '~src/services';
 import { type ProductItem, type ProductsKeys } from '~src/types';
 
@@ -164,7 +164,7 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 			</Table.Body>
 
 			<Table.Footer>
-				<InsertNewproducts />
+				<InsertNewProducts />
 			</Table.Footer>
 		</Table>
 	);
