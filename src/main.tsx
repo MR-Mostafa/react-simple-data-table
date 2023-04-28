@@ -3,6 +3,7 @@ import '~src/assets/styles/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -24,11 +25,13 @@ export const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<ErrorBoundary>
-			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} />
+			<RecoilRoot>
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
 
-				<ReactQueryDevtools initialIsOpen={false} />
-			</QueryClientProvider>
+					<ReactQueryDevtools initialIsOpen={false} />
+				</QueryClientProvider>
+			</RecoilRoot>
 		</ErrorBoundary>
 	</React.StrictMode>
 );
