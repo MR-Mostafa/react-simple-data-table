@@ -1,5 +1,7 @@
-import { memo, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
+import { productsResultState } from '~src/atom';
 import { Table } from '~src/components';
 import { useGetAllProducts } from '~src/services';
 import { type ProductItem, type ProductsKeys } from '~src/types';
@@ -22,6 +24,7 @@ interface ProductsTableProps {
 export const ProductsTable = memo(({ page, limit, searchBy, searchText }: ProductsTableProps) => {
 	const [activeSort, setActiveSort] = useState<SortStateType>({ sortBy: undefined, sortType: undefined });
 	const { data, isLoading, isError, isSuccess } = useGetAllProducts();
+	const setProductResultState = useSetRecoilState(productsResultState);
 
 	const tableHeaderList = useMemo(() => {
 		const sortHandler = (() => {
@@ -117,6 +120,10 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 
 		return filterProducts.slice(start, end);
 	}, [filterProducts, page, limit]);
+
+	useEffect(() => {
+		setProductResultState(filterProducts);
+	}, [paginationProducts]);
 
 	return (
 		<Table isTruncated>
