@@ -20,3 +20,10 @@ export interface ProductList {
 	skip: number;
 	limit: number;
 }
+
+export interface AddNewProductProps {
+	category: string;
+	title: string;
+	price: number;
+	description: string;
+}
