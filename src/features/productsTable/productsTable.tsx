@@ -1,11 +1,14 @@
 import { memo, useEffect, useMemo, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+import { IoIosRemoveCircle } from 'react-icons/io';
 import { useSetRecoilState } from 'recoil';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { productsResultState } from '~src/atom';
 import { Table } from '~src/components';
-import { InsertNewProducts } from '~src/features';
+import { ConfirmDeleteModal, InsertNewProducts } from '~src/features';
 import { useGetAllProducts } from '~src/services';
 import { type ProductItem, type ProductsKeys } from '~src/types';
 
@@ -28,6 +31,7 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 	const [activeSort, setActiveSort] = useState<SortStateType>({ sortBy: undefined, sortType: undefined });
 	const { data, isLoading, isError, isSuccess } = useGetAllProducts();
 	const setProductResultState = useSetRecoilState(productsResultState);
+	const [deleteItem, setDeleteItem] = useState<ProductItem | null>(null);
 
 	const tableHeaderList = useMemo(() => {
 		const sortHandler = (() => {
@@ -129,43 +133,62 @@ export const ProductsTable = memo(({ page, limit, searchBy, searchText }: Produc
 	}, [paginationProducts]);
 
 	return (
-		<Table isTruncated>
-			<Table.Header list={tableHeaderList} />
+		<>
+			<Table isTruncated>
+				<Table.Header list={tableHeaderList} />
 
-			<Table.Body>
-				<>
-					{isLoading && <Table.Loading tdProps={{ colSpan: 6 }} />}
+				<Table.Body>
+					<>
+						{isLoading && <Table.Loading tdProps={{ colSpan: 6 }} />}
 
-					{isError && <Table.Error tdProps={{ colSpan: 6 }} />}
+						{isError && <Table.Error tdProps={{ colSpan: 6 }} />}
 
-					{isSuccess && paginationProducts.length === 0 && <Table.Empty tdProps={{ colSpan: 6 }} />}
+						{isSuccess && paginationProducts.length === 0 && <Table.Empty tdProps={{ colSpan: 6 }} />}
 
-					{isSuccess &&
-						paginationProducts.length !== 0 &&
-						paginationProducts.map((item) => {
-							const uuid = uuidv4();
+						{isSuccess &&
+							paginationProducts.length !== 0 &&
+							paginationProducts.map((item) => {
+								const uuid = uuidv4();
 
-							return (
-								<tr key={uuid}>
-									<td className="text-center">{new Intl.NumberFormat('en-GB', { style: 'decimal' }).format(item.id)}</td>
-									<td>{item.category}</td>
-									<td>{item.title}</td>
-									<td>
-										{new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'USD', currencyDisplay: 'narrowSymbol' }).format(
-											item.price
-										)}
-									</td>
-									<td>{item.description}</td>
-									<td></td>
-								</tr>
-							);
-						})}
-				</>
-			</Table.Body>
+								return (
+									<tr key={uuid}>
+										<td className="text-center">{new Intl.NumberFormat('en-GB', { style: 'decimal' }).format(item.id)}</td>
+										<td>{item.category}</td>
+										<td>{item.title}</td>
+										<td>
+											{new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'USD', currencyDisplay: 'narrowSymbol' }).format(
+												item.price
+											)}
+										</td>
+										<td>{item.description}</td>
+										<td className="text-center">
+											<Button
+												className="border-0 px-3 fs-3 pt-0 pb-1"
+												variant="outline-danger"
+												disabled={!!deleteItem}
+												onClick={() => {
+													setDeleteItem(item);
+												}}
+											>
+												{!!deleteItem && deleteItem.id === item.id ? (
+													<Spinner animation="border" variant="dark" size="sm" className="fs-6" />
+												) : (
+													<IoIosRemoveCircle />
+												)}
+											</Button>
+										</td>
+									</tr>
+								);
+							})}
+					</>
+				</Table.Body>
 
-			<Table.Footer>
-				<InsertNewProducts />
-			</Table.Footer>
-		</Table>
+				<Table.Footer>
+					<InsertNewProducts />
+				</Table.Footer>
+			</Table>
+
+			{!!deleteItem && <ConfirmDeleteModal isShow={!!deleteItem} handleClose={() => setDeleteItem(null)} productItem={deleteItem} />}
+		</>
 	);
 });
