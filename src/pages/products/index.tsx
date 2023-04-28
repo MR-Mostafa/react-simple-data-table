@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
-import { ProductsHeader, ProductsTable } from '~src/features';
+import { ProductsFooter, ProductsHeader, ProductsTable } from '~src/features';
 import { ProductsKeys } from '~src/types';
 
 export interface InputsStateType {
@@ -42,6 +42,10 @@ const Products = () => {
 						searchBy={deferredInputs.searchBy}
 						searchText={deferredInputs.searchText}
 					/>
+				</Col>
+
+				<Col xs={12}>
+					<ProductsFooter page={page} limit={deferredInputs.limit} />
 				</Col>
 			</Row>
 		</Container>
