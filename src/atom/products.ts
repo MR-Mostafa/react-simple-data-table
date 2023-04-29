@@ -34,3 +34,12 @@ export const getProductCountState = selector<GetProductCount>({
 		};
 	},
 });
+
+/**
+ * @description
+ *  Current page number for a list of products.
+ */
+export const currentProductPageState = atom<number>({
+	key: 'currentProductPage',
+	default: 1,
+});
