@@ -6,7 +6,7 @@
 		"es2022": true
 	},
 	"plugins": ["@typescript-eslint", "github"],
-	"extends": ["eslint:recommended", "plugin:github/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+	"extends": ["plugin:github/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
 	"settings": {
 		"import/resolver": {
 			"typescript": {
@@ -25,6 +25,7 @@
 		"no-shadow": "off",
 		"@typescript-eslint/no-shadow": "error",
 		"no-unused-vars": "off",
-		"@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }]
+		"@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
+		"@typescript-eslint/no-non-null-assertion": "off"
 	}
 }
