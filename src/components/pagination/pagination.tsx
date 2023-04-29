@@ -17,32 +17,7 @@ interface PaginationProps {
 const START_PAGE = 1;
 
 export const Pagination = ({ totalPage, currentPage, onChangePage }: PaginationProps) => {
-	const [_searchParam, setSearchParam] = useChangeSearchParams();
-
-	/* Setting the search parameter `page` to the current page number */
-	useEffect(() => {
-		setSearchParam<{ page: number }>({ page: currentPage });
-	}, [currentPage]);
-
-	/**
-	 * This is ensuring that the current page number is always within the valid range of available pages.
-	 *  - If the current page is less than 1, it sets the page number to 1.
-	 *  - If the `totalCount` is not available, it returns.
-	 *  - If the current page is greater than the total number of pages, it sets the page number to the last page.
-	 */
-	useEffect(() => {
-		const current = Math.ceil(currentPage);
-		const total = Math.ceil(totalPage);
-
-		if (current < 1) {
-			onChangePage(1);
-			return;
-		}
-
-		if (current > total) {
-			onChangePage(total);
-		}
-	}, [totalPage, currentPage]);
+	const [searchParam, setSearchParam] = useChangeSearchParams();
 
 	const page = useMemo(() => {
 		const total = Math.ceil(totalPage);
@@ -58,7 +33,34 @@ export const Pagination = ({ totalPage, currentPage, onChangePage }: PaginationP
 
 	const handleChangePage = (moveTo: number) => {
 		onChangePage(moveTo);
+		setSearchParam<{ page: number }>({ page: moveTo });
 	};
+
+	/* Update the current page number based on the value of the `page` query parameter in the URL. */
+	useEffect(() => {
+		const pageNumber = searchParam.get('page') || `${currentPage}`;
+		handleChangePage(+pageNumber);
+	}, []);
+
+	/**
+	 * This is ensuring that the current page number is always within the valid range of available pages.
+	 *  - If the current page is less than 1, it sets the page number to 1.
+	 *  - If the `totalCount` is not available, it returns.
+	 *  - If the current page is greater than the total number of pages, it sets the page number to the last page.
+	 */
+	useEffect(() => {
+		const current = Math.ceil(currentPage);
+		const total = Math.ceil(totalPage);
+
+		if (current < 1) {
+			handleChangePage(1);
+			return;
+		}
+
+		if (current > total) {
+			handleChangePage(total);
+		}
+	}, [totalPage, currentPage]);
 
 	return (
 		<div className={cx(styled.pagination, 'd-inline-flex', 'flex-row', 'align-items-center', 'justify-content-center', 'gap-2')}>
