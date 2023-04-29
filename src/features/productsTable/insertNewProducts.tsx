@@ -15,6 +15,7 @@ enum InputsActionKind {
 	TITLE = 'changeTitle',
 	PRICE = 'changePrice',
 	DESCRIPTION = 'changeDescription',
+	RESET = 'reset',
 }
 
 interface InputsState {
@@ -87,16 +88,23 @@ const inputsReducer = (state: InputsState, action: InputsAction) => {
 				...state,
 				description: payload,
 			};
+		case InputsActionKind.RESET:
+			return DEFAULT_INPUTS;
 		default:
 			return state;
 	}
 };
 
 export const InsertNewProducts = memo(() => {
-	const { data: categories, isSuccess } = useGetProductCategories();
-	const { mutate, isLoading } = useAddNewProduct();
-
 	const [inputsState, inputsDispatch] = useReducer(inputsReducer, DEFAULT_INPUTS);
+
+	const { data: categories, isSuccess } = useGetProductCategories();
+
+	const { mutate, isLoading } = useAddNewProduct({
+		onSuccess: () => {
+			inputsDispatch({ type: InputsActionKind.RESET, payload: { value: '', isInvalid: false } });
+		},
+	});
 
 	const handleChangeInput = useCallback((e: ChangeEvent<HTMLSelectElement | FormControlElement>) => {
 		const { target } = e;

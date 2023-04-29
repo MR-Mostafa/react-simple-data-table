@@ -50,7 +50,7 @@ export const useGetProductCategories = () => {
  * @description
  * Add a new product to a list of products.
  */
-export const useAddNewProduct = () => {
+export const useAddNewProduct = ({ onSuccess = undefined }: { onSuccess?: () => void }) => {
 	const queryClient = useQueryClient();
 	const key = ['products'];
 
@@ -74,6 +74,10 @@ export const useAddNewProduct = () => {
 				const { total, products } = prevData;
 
 				const lastId = products[products.length - 1].id;
+
+				if (onSuccess && typeof onSuccess === 'function') {
+					onSuccess();
+				}
 
 				return {
 					...prevData,
