@@ -1,6 +1,6 @@
 import '~src/assets/styles/index.scss';
 
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -23,7 +23,7 @@ export const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<React.StrictMode>
+	<StrictMode>
 		<ErrorBoundary>
 			<RecoilRoot>
 				<QueryClientProvider client={queryClient}>
@@ -33,5 +33,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 				</QueryClientProvider>
 			</RecoilRoot>
 		</ErrorBoundary>
-	</React.StrictMode>
+	</StrictMode>
 );
