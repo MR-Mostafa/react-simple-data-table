@@ -73,9 +73,11 @@ export const useAddNewProduct = () => {
 
 				const { total, products } = prevData;
 
+				const lastId = products[products.length - 1].id;
+
 				return {
 					...prevData,
-					products: [...products, { ...newData, id: total + 1 }],
+					products: [...products, { ...newData, id: lastId + 1 }],
 					total: total + 1,
 				};
 			});
