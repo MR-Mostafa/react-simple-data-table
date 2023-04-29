@@ -1,7 +1,8 @@
-import { useDeferredValue, useState } from 'react';
+import { useDeferredValue, useLayoutEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import { useSearchParams } from 'react-router-dom';
 
 import { ProductsFooter, ProductsHeader, ProductsTable } from '~src/features';
 import { ProductsKeys } from '~src/types';
@@ -13,8 +14,15 @@ export interface InputsStateType {
 }
 
 const Products = () => {
-	const [page] = useState(1);
+	const [searchParam, _setSearchParam] = useSearchParams();
+	const [page, setPage] = useState<number>(1);
 	const [inputs, setInputs] = useState<InputsStateType>({ limit: 30, searchText: '', searchBy: 'title' });
+
+	useLayoutEffect(() => {
+		const pageParam = searchParam.get('page') || '1';
+
+		setPage(+pageParam);
+	}, [searchParam]);
 
 	const deferredInputs = useDeferredValue(inputs);
 
