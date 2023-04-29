@@ -1,10 +1,10 @@
-import { useDeferredValue, useLayoutEffect, useState } from 'react';
+import { useDeferredValue, useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { useSearchParams } from 'react-router-dom';
 
 import { ProductsFooter, ProductsHeader, ProductsTable } from '~src/features';
+import { useChangeSearchParams } from '~src/hooks';
 import { ProductsKeys } from '~src/types';
 
 export interface InputsStateType {
@@ -14,17 +14,19 @@ export interface InputsStateType {
 }
 
 const Products = () => {
-	const [searchParam, _setSearchParam] = useSearchParams();
-	const [page, setPage] = useState<number>(1);
-	const [inputs, setInputs] = useState<InputsStateType>({ limit: 30, searchText: '', searchBy: 'title' });
-
-	useLayoutEffect(() => {
-		const pageParam = searchParam.get('page') || '1';
-
-		setPage(+pageParam);
-	}, [searchParam]);
+	const [searchParam, setSearchParam] = useChangeSearchParams();
+	const [inputs, setInputs] = useState<InputsStateType>({
+		limit: searchParam.get('limit') ? +searchParam.get('limit')! : 30,
+		searchText: searchParam.get('searchText') || '',
+		searchBy: (searchParam.get('searchBy') || 'title') as ProductsKeys,
+	});
 
 	const deferredInputs = useDeferredValue(inputs);
+
+	/* Update the search parameters in the URL */
+	useEffect(() => {
+		setSearchParam<InputsStateType>(deferredInputs);
+	}, [deferredInputs]);
 
 	return (
 		<Container className="py-5">
@@ -44,16 +46,11 @@ const Products = () => {
 				</Col>
 
 				<Col xs={12}>
-					<ProductsTable
-						page={page}
-						limit={deferredInputs.limit}
-						searchBy={deferredInputs.searchBy}
-						searchText={deferredInputs.searchText}
-					/>
+					<ProductsTable limit={deferredInputs.limit} searchBy={deferredInputs.searchBy} searchText={deferredInputs.searchText} />
 				</Col>
 
 				<Col xs={12}>
-					<ProductsFooter page={page} limit={deferredInputs.limit} />
+					<ProductsFooter limit={deferredInputs.limit} />
 				</Col>
 			</Row>
 		</Container>

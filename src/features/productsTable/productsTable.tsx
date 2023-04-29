@@ -2,11 +2,11 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { IoIosRemoveCircle } from 'react-icons/io';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { productsResultState } from '~src/atom';
+import { currentProductPageState, productsResultState } from '~src/atom';
 import { Table } from '~src/components';
 import { ConfirmDeleteModal, InsertNewProducts } from '~src/features';
 import { useGetAllProducts } from '~src/services';
@@ -17,7 +17,6 @@ interface SortStateType {
 	sortType?: 'asc' | 'des';
 }
 interface ProductsTableProps {
-	page: number;
 	limit: number;
 	searchBy?: ProductsKeys;
 	searchText?: string;
@@ -27,9 +26,10 @@ interface ProductsTableProps {
  * @description
  * Displays a table of products based on the current page, limit, search query, and sort order.
  **/
-export const ProductsTable = memo(({ page, limit, searchBy, searchText }: ProductsTableProps) => {
+export const ProductsTable = memo(({ limit, searchBy, searchText }: ProductsTableProps) => {
 	const [activeSort, setActiveSort] = useState<SortStateType>({ sortBy: undefined, sortType: undefined });
 	const { data, isLoading, isError, isSuccess } = useGetAllProducts();
+	const page = useRecoilValue(currentProductPageState);
 	const setProductResultState = useSetRecoilState(productsResultState);
 	const [deleteItem, setDeleteItem] = useState<ProductItem | null>(null);
 
