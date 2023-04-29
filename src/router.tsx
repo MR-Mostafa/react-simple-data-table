@@ -1,7 +1,7 @@
 import { lazy as ReactLazy, Suspense as ReactSuspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { LoadingSpinner } from '~src/components';
+import { LoadingSpinner, ScrollTop } from '~src/components';
 import NotFound from '~src/pages/404';
 
 const ProductsPage = ReactLazy(() => import('~src/pages/products'));
@@ -12,7 +12,9 @@ const router = createBrowserRouter([
 		path: '/products',
 		element: (
 			<ReactSuspense fallback={<LoadingSpinner />}>
-				<ProductsPage />
+				<ScrollTop>
+					<ProductsPage />
+				</ScrollTop>
 			</ReactSuspense>
 		),
 	},
@@ -20,7 +22,9 @@ const router = createBrowserRouter([
 		path: '/products/:id',
 		element: (
 			<ReactSuspense fallback={<LoadingSpinner />}>
-				<ProductsIdPage />
+				<ScrollTop>
+					<ProductsIdPage />
+				</ScrollTop>
 			</ReactSuspense>
 		),
 	},
