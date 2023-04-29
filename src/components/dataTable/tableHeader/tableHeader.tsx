@@ -1,6 +1,6 @@
 import styled from './tableHeader.module.scss';
 
-import { ReactElement, memo } from 'react';
+import { ReactElement } from 'react';
 import Button from 'react-bootstrap/Button';
 import { THProps, TRProps } from 'react-html-props';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
@@ -22,7 +22,7 @@ interface TableHeaderProps {
 const DEFAULT_CLASS =
 	'px-3 py-4 d-flex align-items-center justify-content-center gap-4 w-100 fs-6 fw-bold border-0 bg-transparent text-black rounded-0';
 
-export const TableHeader = memo(({ list, thProps, trProps }: TableHeaderProps): ReactElement<HTMLTableSectionElement> => {
+export const TableHeader = ({ list, thProps, trProps }: TableHeaderProps): ReactElement<HTMLTableSectionElement> => {
 	return (
 		<thead className={styled.thead}>
 			<tr {...trProps}>
@@ -54,4 +54,4 @@ export const TableHeader = memo(({ list, thProps, trProps }: TableHeaderProps): 
 			</tr>
 		</thead>
 	);
-});
+};

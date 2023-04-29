@@ -1,6 +1,6 @@
 import styled from './pagination.module.scss';
 
-import { memo, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import { TbArrowBigLeftFilled, TbArrowBigRightFilled } from 'react-icons/tb';
 import { useSearchParams } from 'react-router-dom';
@@ -14,7 +14,7 @@ interface PaginationProps {
 
 const START_PAGE = 1;
 
-export const Pagination = memo(({ totalPage, currentPage }: PaginationProps) => {
+export const Pagination = ({ totalPage, currentPage }: PaginationProps) => {
 	const [_pageParam, setPageParam] = useSearchParams();
 
 	const status = useMemo(() => {
@@ -79,4 +79,4 @@ export const Pagination = memo(({ totalPage, currentPage }: PaginationProps) => 
 			</Button>
 		</div>
 	);
-});
+};
