@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { currentProductPageState, productsResultState } from '~src/atom';
 import { Table } from '~src/components';
 import { ConfirmDeleteModal, InsertNewProducts } from '~src/features';
+import { useChangeSearchParams } from '~src/hooks';
 import { useGetAllProducts } from '~src/services';
 import { type ProductItem, type ProductsKeys } from '~src/types';
 
@@ -27,7 +28,11 @@ interface ProductsTableProps {
  * Displays a table of products based on the current page, limit, search query, and sort order.
  **/
 export const ProductsTable = memo(({ limit, searchBy, searchText }: ProductsTableProps) => {
-	const [activeSort, setActiveSort] = useState<SortStateType>({ sortBy: undefined, sortType: undefined });
+	const [searchParam, setSearchParam] = useChangeSearchParams();
+	const [activeSort, setActiveSort] = useState<SortStateType>({
+		sortBy: searchParam.get('sortBy') || undefined,
+		sortType: (searchParam.get('sortType') || undefined) as 'asc' | 'des' | undefined,
+	});
 	const { data, isLoading, isError, isSuccess } = useGetAllProducts();
 	const page = useRecoilValue(currentProductPageState);
 	const setProductResultState = useSetRecoilState(productsResultState);
@@ -131,6 +136,10 @@ export const ProductsTable = memo(({ limit, searchBy, searchText }: ProductsTabl
 	useEffect(() => {
 		setProductResultState(filterProducts);
 	}, [paginationProducts]);
+
+	useEffect(() => {
+		setSearchParam<SortStateType>(activeSort);
+	}, [activeSort]);
 
 	return (
 		<>
