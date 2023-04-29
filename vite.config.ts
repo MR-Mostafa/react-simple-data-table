@@ -1,22 +1,17 @@
-import { defineConfig, type ConfigEnv } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { type ConfigEnv, defineConfig } from 'vite';
+
 import { resolve } from 'path';
-import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
+
+import react from '@vitejs/plugin-react-swc';
+
+const reactVendor = ['react', 'react-router-dom', 'react-dom', 'react-error-boundary'];
 
 // https://vitejs.dev/config/
 export default defineConfig((config: ConfigEnv) => {
-	const isDevMode = config.mode === 'development'
+	const isDevMode = config.mode === 'development';
 
 	return {
-		plugins: [
-			react(),
-			chunkSplitPlugin({
-				strategy: 'single-vendor',
-				customSplitting: {
-					'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-				},
-			}),
-		],
+		plugins: [react()],
 		esbuild: {
 			jsxInject: `import React from 'react'`,
 		},
@@ -35,6 +30,15 @@ export default defineConfig((config: ConfigEnv) => {
 		},
 		envDir: resolve(__dirname, 'src', 'env'),
 		envPrefix: 'GB_',
+		build: {
+			rollupOptions: {
+				output: {
+					manualChunks: {
+						reactVendor,
+					},
+				},
+			},
+		},
 		server: {
 			proxy: {
 				/**
