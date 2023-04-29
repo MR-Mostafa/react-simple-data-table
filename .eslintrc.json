@@ -23,6 +23,8 @@
 		"filenames/match-regex": ["error", "^[a-z0-9\\[][a-zA-Z0-9-\\]]+(.[a-z0-9-.]+)?$"],
 		"eslint-comments/no-use": "off",
 		"no-shadow": "off",
-		"@typescript-eslint/no-shadow": "error"
+		"@typescript-eslint/no-shadow": "error",
+		"no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }]
 	}
 }
