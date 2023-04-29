@@ -5,7 +5,7 @@ import { LoadingSpinner, ScrollTop } from '~src/components';
 import NotFound from '~src/pages/404';
 
 const ProductsPage = ReactLazy(() => import('~src/pages/products'));
-const ProductsIdPage = ReactLazy(() => import('~src/pages/products/[id]'));
+const ProductDetails = ReactLazy(() => import('~src/pages/products/[productId]'));
 
 const router = createBrowserRouter([
 	{
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
 		element: (
 			<ReactSuspense fallback={<LoadingSpinner />}>
 				<ScrollTop>
-					<ProductsIdPage />
+					<ProductDetails />
 				</ScrollTop>
 			</ReactSuspense>
 		),

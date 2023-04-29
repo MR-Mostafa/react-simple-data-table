@@ -2,7 +2,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
-const ProductId = () => {
+const ProductDetails = () => {
 	return (
 		<Container className="py-5">
 			<Row>
@@ -14,4 +14,4 @@ const ProductId = () => {
 	);
 };
 
-export default ProductId;
+export default ProductDetails;
