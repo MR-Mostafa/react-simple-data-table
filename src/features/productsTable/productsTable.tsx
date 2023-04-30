@@ -1,9 +1,11 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import { IoIosRemoveCircle } from 'react-icons/io';
+import { IoIosRemoveCircle, IoMdSettings } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import cx from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 
 import { currentProductPageState, productsResultState } from '~src/atom';
@@ -172,7 +174,7 @@ export const ProductsTable = memo(({ limit, searchBy, searchText }: ProductsTabl
 										<td>{item.description}</td>
 										<td className="text-center">
 											<Button
-												className="border-0 px-3 fs-3 pt-0 pb-1"
+												className="border-0 px-3 fs-3 pt-0 pb-1 me-1"
 												variant="outline-danger"
 												disabled={!!deleteItem}
 												onClick={() => {
@@ -185,6 +187,13 @@ export const ProductsTable = memo(({ limit, searchBy, searchText }: ProductsTabl
 													<IoIosRemoveCircle />
 												)}
 											</Button>
+
+											<Link
+												className={cx('border-0', 'px-3', 'fs-3', 'pt-0', 'pb-1', 'btn', 'btn-outline-primary', { disabled: !!deleteItem })}
+												to={`/products/${item.id}`}
+											>
+												<IoMdSettings />
+											</Link>
 										</td>
 									</tr>
 								);
