@@ -170,7 +170,7 @@ export const InsertNewProducts = memo(() => {
 			<td>
 				<Form.Control
 					type="text"
-					inputMode="text"
+					inputMode="decimal"
 					placeholder="Product Price"
 					name="price"
 					disabled={!isSuccess || isLoading}

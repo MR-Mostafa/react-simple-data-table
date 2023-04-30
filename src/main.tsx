@@ -27,7 +27,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		<ErrorBoundary>
 			<RecoilRoot>
 				<QueryClientProvider client={queryClient}>
-					<RouterProvider router={router} />
+					<RouterProvider router={router(queryClient)} />
 
 					<ReactQueryDevtools initialIsOpen={false} />
 				</QueryClientProvider>

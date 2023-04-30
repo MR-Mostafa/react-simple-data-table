@@ -41,3 +41,6 @@ export const postFetcher = <T, D = unknown>(url: string, data: D = {} as D, conf
 	API.post<T>(url, data, config).then((res) => res);
 
 export const deleteFetcher = <T>(url: string, config: AxiosRequestConfig = {}) => API.delete<T>(url, config).then((res) => res);
+
+export const putFetcher = <T, D = unknown>(url: string, data: D = {} as D, config: AxiosRequestConfig = {}) =>
+	API.put<T>(url, data, config).then((res) => res);

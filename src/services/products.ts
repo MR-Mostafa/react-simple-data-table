@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { type AddNewProductProps, type ProductItem, type ProductList } from '~src/types';
 
-import { deleteFetcher, getFetcher, postFetcher } from './api';
+import { deleteFetcher, getFetcher, postFetcher, putFetcher } from './api';
 
 /**
  * @description
@@ -61,6 +61,10 @@ export const useAddNewProduct = ({ onSuccess = undefined }: { onSuccess?: () => 
 			return data;
 		},
 		onSuccess: (newData) => {
+			if (onSuccess && typeof onSuccess === 'function') {
+				onSuccess();
+			}
+
 			queryClient.setQueryData<ProductList>(key, (prevData) => {
 				if (!prevData) {
 					return {
@@ -74,10 +78,6 @@ export const useAddNewProduct = ({ onSuccess = undefined }: { onSuccess?: () => 
 				const { total, products } = prevData;
 
 				const lastId = products[products.length - 1].id;
-
-				if (onSuccess && typeof onSuccess === 'function') {
-					onSuccess();
-				}
 
 				return {
 					...prevData,
@@ -121,6 +121,56 @@ export const useDeleteProduct = () => {
 					...prevData,
 					products: removedProduct,
 					total: total - 1,
+				};
+			});
+		},
+	});
+};
+
+/**
+ * @description
+ * Get a list of products and return them all.
+ */
+export const getProductByID = (productId: string) => {
+	return {
+		queryKey: [`product-${productId}`],
+		queryFn: async () => {
+			const { data } = await getFetcher<ProductItem>(`/products/${productId}`);
+
+			return data;
+		},
+	};
+};
+
+/**
+ * @description
+ * Edit a product and updates the query data accordingly.
+ */
+export const useEditProduct = () => {
+	const queryClient = useQueryClient();
+	const key = ['products'];
+
+	return useMutation({
+		mutationFn: async ({ productId, body }: { productId: string; body: { price: number } }) => {
+			const { data } = await putFetcher<ProductItem>(`/products/${productId}`, body);
+
+			return data;
+		},
+		onSuccess: (newData) => {
+			queryClient.setQueryData<ProductList>(key, (prevData) => {
+				if (!prevData) return;
+
+				const { products } = prevData;
+
+				return {
+					...prevData,
+					products: products.map((item) => {
+						if (item.id === newData.id) {
+							return { ...item, ...newData };
+						}
+
+						return item;
+					}),
 				};
 			});
 		},
