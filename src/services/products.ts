@@ -126,3 +126,18 @@ export const useDeleteProduct = () => {
 		},
 	});
 };
+
+/**
+ * @description
+ * Get a list of products and return them all.
+ */
+export const getProductByID = (productId: string) => {
+	return {
+		queryKey: [`product-${productId}`],
+		queryFn: async () => {
+			const { data } = await getFetcher<ProductItem>(`/products/${productId}`);
+
+			return data;
+		},
+	};
+};

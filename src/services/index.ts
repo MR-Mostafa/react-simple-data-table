@@ -1,1 +1,2 @@
-export { useAddNewProduct, useDeleteProduct, useGetAllProducts, useGetProductCategories } from './products';
+export * from './loader';
+export * from './products';
